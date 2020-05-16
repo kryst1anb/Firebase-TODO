@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+
+    <item
+        android:id="@+id/add_action"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+        android:title="Add"
+        app:showAsAction="ifRoom">
+    </item>
+
+    <item
+        android:id="@+id/settings_action"
+        android:icon="@drawable/ic_format_list_numbered_black_24dp"
+        android:title="List"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/logout_action"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="Logout"
+        app:showAsAction="ifRoom">
+    </item>
+
+</menu>

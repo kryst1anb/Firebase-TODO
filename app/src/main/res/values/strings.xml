@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Rozrywka-FireBase</string>
+    <string name="delete_book">Delete Book</string>
+    <string name="language">Language</string>
+    <string name="book_pages">Book Pages</string>
+    <string name="year">Year</string>
+    <string name="isbn">ISBN</string>
+    <string name="author">Author</string>
+    <string name="title">Title</string>
+    <string name="add_book">Add Book</string>
+    <string name="enter_your_e_mail">Enter your e-mail</string>
+    <string name="enter_password">Enter password</string>
+    <string name="login">LOGIN</string>
+    <string name="create_account">Create Account</string>
+</resources>
