@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setTitle("ManageMe");
 
-        buttonLogin.setOnClickListener() {
+        buttonLogin.setOnClickListener {
             val email = editTextMail4.text.toString()
             val password = editTextPassword4.text.toString()
 
@@ -29,12 +29,11 @@ class MainActivity : AppCompatActivity() {
                 editTextPassword4.text?.clear()
             }
             else {
-                signIn(email.toString(), password.toString())
+                signIn(email, password)
             }
         }
 
-        buttonCreateAccount.setOnClickListener() {
-            finish()
+        buttonCreateAccount.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
@@ -46,8 +45,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "User logged successfully", Toast.LENGTH_SHORT).show()
                 //Create new Activity
                 val intent = Intent(this, AfterLoginActivity::class.java).apply {
-                    val email_name = editTextMail4.text.toString()
-                    putExtra("EMAIL_NAME", email_name)
+                    val eMAIL = editTextMail4.text.toString()
+                    putExtra("EMAIL", eMAIL)
                 }
                 startActivity(intent)
                 editTextMail4.text?.clear()

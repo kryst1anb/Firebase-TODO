@@ -20,7 +20,6 @@ class SignUpActivity : AppCompatActivity() {
         getSupportActionBar()?.setTitle("Sign Up");
 
         buttonSignUp.setOnClickListener {
-            // var email = editTextMail.text.toString()
             val email = editTextMail2.text.toString()
             val password = editTextPassword2.text.toString()
 

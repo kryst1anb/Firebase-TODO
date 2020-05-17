@@ -15,7 +15,7 @@ import com.google.firebase.database.*
 class AfterLoginActivity: AppCompatActivity(){
 
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    var user_email = ""
+    var email = ""
     lateinit var recyclerView: RecyclerView
     private lateinit var databaseReference: DatabaseReference
     private lateinit var listOfBook: MutableList<Book>
@@ -29,13 +29,12 @@ class AfterLoginActivity: AppCompatActivity(){
 
         recyclerView = findViewById(R.id.recyclerView_books)
 
-        user_email = intent.getStringExtra("EMAIL_NAME")!!
-        val login = user_email.split("@",".")
+        email = intent.getStringExtra("EMAIL")!!
+        val login = email.split("@",".")
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.myToolbar)
         setSupportActionBar(toolbar)
-        //getSupportActionBar()?.setTitle(user_email);
-        getSupportActionBar()?.setTitle("Already seen");
+        getSupportActionBar()?.setTitle("Books");
 
         val firebase = FirebaseDatabase.getInstance()
         databaseReference = firebase.getReference(login[0] + login[1] + login[2])
@@ -57,11 +56,10 @@ class AfterLoginActivity: AppCompatActivity(){
             }
         })
 
-        Log.e("", firebaseAuth.toString())
     }
 
     private fun setupAdapter(mutableData:MutableList<Book>){
-        recyclerView.adapter = Adapter(mutableData, this)
+        recyclerView.adapter = Adapter(mutableData, this, email)
     }
 
 
@@ -79,7 +77,7 @@ class AfterLoginActivity: AppCompatActivity(){
             firebaseAuth.signOut()
             firebaseAuth.addAuthStateListener {
                 if(firebaseAuth.currentUser == null){
-                    finish()
+
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -89,11 +87,9 @@ class AfterLoginActivity: AppCompatActivity(){
 
         //Add button clicked on the top bar
         else if(id == R.id.add_action){
-            // var intent = Intent(this, AddActivity::class.java)
-            finish()
             val intent = Intent(this, AddActivity::class.java).apply {
 
-                putExtra("EMAIL_NAME", user_email)
+                putExtra("EMAIL", email)
             }
 
             startActivity(intent)
@@ -103,8 +99,11 @@ class AfterLoginActivity: AppCompatActivity(){
         //Already seen button option on the top bar in the menu option
         else{
             if(flagActivity != 1){
-                finish()
-                val intent = Intent(this, AfterLoginActivity::class.java)
+
+                val intent = Intent(this, AfterLoginActivity::class.java).apply {
+                    putExtra("EMAIL", email)
+                }
+
                 startActivity(intent)
                 return true
             }

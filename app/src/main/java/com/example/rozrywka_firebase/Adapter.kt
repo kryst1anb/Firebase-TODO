@@ -9,15 +9,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter (private var bookList: MutableList<Book>,val context: Context): RecyclerView.Adapter<Adapter.MyViewHolder>() {
+class Adapter (private var bookList: MutableList<Book>, private val context: Context, var email: String): RecyclerView.Adapter<Adapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.item_row, parent, false)
-
         return MyViewHolder(view)
-
     }
 
     override fun getItemCount(): Int {
@@ -36,7 +33,10 @@ class Adapter (private var bookList: MutableList<Book>,val context: Context): Re
         holder.bookLanguage.text = bookList[holder.adapterPosition].language
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, DetailsActivity::class.java)
+            val intent = Intent(context, DetailsActivity::class.java).apply {
+                putExtra("EMAIL", email)
+            }
+
             intent.putExtra("position",position)
             intent.putExtra("title", book.title)
             intent.putExtra("author", book.author)
@@ -45,12 +45,11 @@ class Adapter (private var bookList: MutableList<Book>,val context: Context): Re
             intent.putExtra("pages", book.pages)
             intent.putExtra("language", book.language)
 
-            ContextCompat.startActivity(context!!, intent,null)
+            ContextCompat.startActivity(context, intent,null)
         }
     }
 
-    class MyViewHolder(var view: View) : RecyclerView.ViewHolder(view)
-    {
+    class MyViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         val bookTitle : TextView = view.findViewById(R.id.BookTitle)
         val bookAuthor : TextView = view.findViewById(R.id.BookAuthor)
         val bookISBN : TextView = view.findViewById(R.id.BookISBN)

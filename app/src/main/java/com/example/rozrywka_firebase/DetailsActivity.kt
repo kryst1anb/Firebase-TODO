@@ -15,6 +15,7 @@ class DetailsActivity : AppCompatActivity() {
 
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var databaseReference: DatabaseReference
+    var email = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +25,9 @@ class DetailsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setTitle("Edit");
 
-        val intent = intent
+        email = intent?.getStringExtra("EMAIL_NAME")!!
+        val login = email.split("@",".")
 
-        //**********************************************************
-        //TODO
-        //val mail = intent?.getStringExtra("EMAIL_NAME")!!
-        //val login = mail.split("@",".")
-
-        //**********************************************************
         val mTitle = intent.getStringExtra("title")
         val mAuthor = intent.getStringExtra("author")
         val mISBN = intent.getStringExtra("isbn")
@@ -48,9 +44,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val firebase = FirebaseDatabase.getInstance()
 
-        //databaseReference = firebase.getReference(login[0] + login[1] + login[2])
-
-        databaseReference = firebase.getReference("kbkbpl")
+        databaseReference = firebase.getReference(login[0] + login[1] + login[2])
 
         val search: Query = databaseReference.orderByChild("isbn").equalTo(mISBN)
         buttonDeleteEdit.setOnClickListener{
@@ -81,7 +75,6 @@ class DetailsActivity : AppCompatActivity() {
             firebaseAuth.signOut()
             firebaseAuth.addAuthStateListener {
                 if(firebaseAuth.currentUser == null){
-                    finish()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -90,14 +83,16 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         else if(id == R.id.add_action){
-            finish()
-            val intent = Intent(this, AddActivity::class.java)
+            val intent = Intent(this, AddActivity::class.java).apply{
+                putExtra("EMAIL", email)
+            }
             startActivity(intent)
             return true
         }
         else{
-            finish()
-            val intent = Intent(this, AfterLoginActivity::class.java)
+            val intent = Intent(this, AfterLoginActivity::class.java).apply{
+                putExtra("EMAIL", email)
+            }
             startActivity(intent)
             return true
         }

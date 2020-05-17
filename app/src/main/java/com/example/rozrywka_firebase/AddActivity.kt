@@ -13,12 +13,13 @@ import kotlinx.android.synthetic.main.activity_add.*
 class AddActivity: AppCompatActivity() {
 
     var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    var email = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
 
-        val mail = intent?.getStringExtra("EMAIL_NAME")!!
+        val email = intent?.getStringExtra("EMAIL")!!
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.myToolbar)
         setSupportActionBar(toolbar)
 
@@ -34,7 +35,7 @@ class AddActivity: AppCompatActivity() {
             val book_Language = bookLanguage.text.toString()
             val book = Book(book_Title, book_Author, book_ISBN, book_Year,book_Pages,book_Language)
 
-            val login = mail.split("@", ".")
+            val login = email.split("@", ".")
 
             val database = FirebaseDatabase.getInstance()
             val myRef = database.getReference(login[0] + login[1] + login[2])
@@ -92,7 +93,6 @@ class AddActivity: AppCompatActivity() {
             firebaseAuth.signOut()
             firebaseAuth.addAuthStateListener {
                 if(firebaseAuth.currentUser == null){
-                    finish()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -100,14 +100,16 @@ class AddActivity: AppCompatActivity() {
             return true
         }
         else if(id == R.id.add_action){
-            finish()
-            val intent = Intent(this, AddActivity::class.java)
+            val intent = Intent(this, AddActivity::class.java).apply{
+                putExtra("EMAIL", email)
+            }
             startActivity(intent)
             return true
         }
         else{
-            finish()
-            val intent = Intent(this, AfterLoginActivity::class.java)
+            val intent = Intent(this, AfterLoginActivity::class.java).apply{
+                putExtra("EMAIL", email)
+            }
             startActivity(intent)
             return true
         }
